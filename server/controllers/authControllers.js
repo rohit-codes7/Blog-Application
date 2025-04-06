@@ -39,32 +39,44 @@ class authControllers {
         }
     }
     
-    static userLogin = async (req,res)=>{
-        const {email, password} = req.body;
-        console.log("User Login Request:", req.body);
-        console.log(req.body);
-        if(email && password){
-            try{
-                const user = await authModel.findOne({email: email});
-                if(user){
-                    if(user.password === password){
-                        res.status(200).json({message: "User logged in successfully"});
+    static userLogin = async (req, res) => {
+        const { email, password } = req.body;
+    
+        try {
+            if (email && password) {
+                const isEmail = await authModel.findOne({ email: email });
+    
+                if (isEmail) {
+                    if(isEmail.email===email && await bcrypt.compare(password, isEmail.password))
+                      
+                    
+                {
+                        // Generate JWT token
+                   
+                        const token = jwt.sign({ userID: isEmail._id }, 
+                            "Good Morning",
+                             { expiresIn: "2d" 
+
+                             });
+                             console.log("Token:", token);
+               
+                        return res.status(200).json({
+                            message: "Login successful",
+                            token: token,
+                            name: isEmail.name,
+                            
+                        });
+                    } else {
+                        return res.status(400).json({ message: "Invalid credentials" });
                     }
-                    else{
-                        res.status(400).json({message: "Invalid credentials"});
-                    }
+                } else {
+                    return res.status(400).json({ message: "Email does not exist" });
                 }
-                else{
-                    res.status(400).json({message: "User not found"});
-                }
+            } else {
+                return res.status(400).json({ message: "All fields are required" });
             }
-            catch (error) {
-                console.log(error.message);
-                res.status(500).json({message: error.message});
-            }
-        }
-        else{
-            res.status(400).json({message: "All fields are required"});
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
         }
     };
 }

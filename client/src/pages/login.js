@@ -14,6 +14,8 @@ const Login = () => {
         e.preventDefault(); // Prevent the default form submission behavior
         try {
             const response = await axios.post("http://localhost:9000/api/v1/user/login", input);
+            localStorage.setItem("token", response.data.token); // Store the token in local storage
+            localStorage.setItem("name", response.data.name); // Store the name in local storage
             alert(response.data.message)
             navigate("/home") // Redirect to the login page after successful registration
         }
@@ -57,7 +59,7 @@ const Login = () => {
 
                     </div>
                 <div className ="mb-3">
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Login</button>
                 </div>
             </form>
         </div>
