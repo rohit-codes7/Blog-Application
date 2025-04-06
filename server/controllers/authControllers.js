@@ -8,27 +8,36 @@ class authControllers {
         const { name, email, password } = req.body;
         console.log("User Registration Request:", req.body);
         console.log(req.body);
-    
         try {
-            if (!name || !email || !password) {
-                return res.status(400).json({ message: "All fields are required" });
+            if (name && email && password) {
+                const isUser = await authModel.findOne({ email: email });
+        
+                if (!isUser) {
+                    const genSalt = await bcrypt.genSalt(10);
+                    const hashedPassword = await bcrypt.hash(password, genSalt);
+        
+                  const newUser = new authModel({
+                        name,
+                        email,
+                        password: hashedPassword,
+                    });
+                    const savedUser = await newUser.save();
+
+                    if(savedUser){
+                        console
+                    }
+        
+                    res.status(201).json({ message: "User registered successfully" });
+                } else {
+                    return res.status(400).json({ message: "User already exists" });
+                }
+            } else {
+                res.status(400).json({ message: "All fields are required" });
             }
-            
-            const userExist = await authModel.findOne({ email });
-    
-            if (userExist) {
-                return res.status(400).json({ message: "User already exists" });
-            }
-    
-            const user = new authModel({ name, email, password });
-            await user.save();
-    
-            return res.status(201).json({ message: "User registered successfully" });
         } catch (error) {
-            console.log(error.message);
             return res.status(500).json({ message: error.message });
         }
-    };
+    }
     
     static userLogin = async (req,res)=>{
         const {email, password} = req.body;
