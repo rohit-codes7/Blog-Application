@@ -9,14 +9,16 @@ app.get('/',(req,res)=> {
    res.send("API is running")
 
 });
+app.use(express.json()); // this is used to parse the incoming request body in a middleware before your handlers, available under the req.body property.
+
 
 // API Routes
 app.use("/api/v1", authRoutes);
-app.use(express.json()); // this is used to parse the incoming request body in a middleware before your handlers, available under the req.body property.
 
 f
 //listen is like shop, I decided to open a shop at location (PORT) 9000
 app.listen(PORT,()=>{
     console.log(`API is running on http://localhost: ${PORT}`);
+
 
 });
