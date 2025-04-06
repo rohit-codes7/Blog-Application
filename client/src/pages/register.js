@@ -8,7 +8,7 @@ const Register = () => {
     // This way, you can easily update the state for all of them at once, and it keeps your code cleaner and more organized.
     const navigate = useNavigate()
     const [input, setInput] = useState({
-        username: "",
+        name: "",
         email: "",
         password: "",
     })
@@ -43,9 +43,9 @@ const Register = () => {
                                 <div className="mb-3">
                                     <label htmlFor="name" className="form-label">Name</label>
                                     <input type="text"
-                                        name="username"
-                                        value={input.username}
-                                        onChange={(e) => setInput({ ...input, username: e.target.value })}
+                                        name="name"
+                                        value={input.name}
+                                        onChange={(e) => setInput({ ...input, name: e.target.value })}
                                         className="form-control"
                                         id="name"
                                         placeholder='Enter your name' />
@@ -86,4 +86,4 @@ const Register = () => {
     }
 
 
-export default Register
+export default Register 
