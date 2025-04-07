@@ -1,4 +1,6 @@
 import blogModel from "../models/blogModels.js";
+import categoryModel from "../models/categoryModel.js";
+import multer from "multer";
 class blogControllers {
 
     // fetching all the blogs from the database
@@ -17,19 +19,21 @@ class blogControllers {
 
     // adding a new blog to the database
     static async addNewBlog(req, res) {
+        console.log(req.file); // using multer to upload the file
+
         console.log(req.body);
         try {
             const { title, category, description } = req.body;
+            console.log(title, category, description);
             if (title && category && description) {
                 const newBlog  = new blogModel({
                     title: title,
                     category: category,
-                    description,
-                    thumbnail: req.file.filename, // using multer to upload the file
-                    user: req.user._id // getting the user id from the token
+                    description :description,
+                    thumbnail: req.file?.filename || "",  // using multer to upload the file
                 })
                 const savedBlog = await newBlog.save(); // saving the blog to the database
-                if (savedBlog) {
+                if (savedBlog) { 
                     res.status(201).json({ message: "Blog added successfully" });
                 }
                 else {
