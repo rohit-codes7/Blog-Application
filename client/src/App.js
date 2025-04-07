@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import AddBlog from './pages/AddBlog'
 import AddCategory from './pages/AddCategory'
 import SingleBlog from './pages/SingleBlog'
+import ProtectedRoute from './Services/ProtectedRoutes'
 
 
 const App = () => {
@@ -14,13 +15,21 @@ const App = () => {
     <>
     <Header/>
     <Routes>
+ 
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
+
+      {/* Private Route */}
+
+      <Route element={<ProtectedRoute/>}>
       <Route path='/home' element={<Home/>}/>
       <Route path='/add-blog' element={<AddBlog/>}/>
       <Route path='/add-category' element={<AddCategory/>}/>
       <Route path='/blog/:id' element={<SingleBlog/>}/>
 
+
+      </Route>
+     
 
 
       </Routes>    </>

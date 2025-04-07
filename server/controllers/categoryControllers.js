@@ -15,6 +15,11 @@ class categoryControllers{
 
     static async addNewCategory(req, res) {
         const { title } = req.body;
+        console.log(title);
+        // checking if the title is not empty
+        if (!title) {
+            return res.status(400).json({ message: "Title is required" });
+        }
 
         try {
     
@@ -33,6 +38,7 @@ class categoryControllers{
             } 
         } catch (error) {
             return res.status(500).json({ message: error.message });
+            console.log(error.message);
         }
     }
     
