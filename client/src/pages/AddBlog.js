@@ -8,7 +8,7 @@ const AddBlog = () => {
         category: "",
         description: "",
     })
-    const [file, setFile] = useState(null)
+    const [file, setFile] = useState([null])
     const [categories, setCategories] = useState([])
 
     const navigate = useNavigate()

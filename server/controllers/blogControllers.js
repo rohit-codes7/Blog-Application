@@ -6,13 +6,13 @@ class blogControllers {
     // fetching all the blogs from the database
     static async getAllBlogs(req, res) {
         try {
-            // fetching all blogs from the database
-            // and sending them as a response
-            const getAllBlogs = await blogModel.find({user:req.user._id});
-            res.status(200).json(getAllBlogs);
+            const fetchAllBlogs = await blogModel.find({})
+            return res.status(200).json(fetchAllBlogs);
+
+
         }
         catch (error) {
-            res.status(500).json({ message: error.message });
+            return res.status(500).json({ message: error.message });
         }
 
     }
@@ -23,6 +23,9 @@ class blogControllers {
 
         console.log(req.body);
         try {
+            if (!req.user || !req.user._id) {
+                return res.status(401).json({ message: "Unauthorized access" });
+            }
             const { title, category, description } = req.body;
             console.log(title, category, description);
             if (title && category && description) {
@@ -31,6 +34,7 @@ class blogControllers {
                     category: category,
                     description :description,
                     thumbnail: req.file?.filename || "",  // using multer to upload the file
+                    user: req.user._id, // Ensure the user ID is saved with the blog
                 })
                 const savedBlog = await newBlog.save(); // saving the blog to the database
                 if (savedBlog) { 
@@ -47,6 +51,7 @@ class blogControllers {
 
         } catch (error) {
             console.log({message : error.message});
+            res.status(500).json({ message: error.message });
 
         }
     }

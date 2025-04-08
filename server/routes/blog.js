@@ -10,6 +10,7 @@ router.post("/user/login", authController.userLogin);
 router.post("/add/category",categoryControllers.addNewCategory);
 router.get("/get/category",categoryControllers.getAllCategories);
 router.post("/add-blog",blogControllers.addNewBlog);
+router.get("/get/allBlogs",blogControllers.getAllBlogs);
 
 
 
