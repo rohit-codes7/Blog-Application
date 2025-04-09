@@ -51,7 +51,7 @@ const SingleBlog = () => {
             <button 
                 type="button" 
                 className="btn btn-primary my-3" 
-                onClick={() => navigate("/")} // Navigate to the correct home page route
+                onClick={() => navigate("/home")} // Navigate to the correct home page route
             >
                 Back to posts
             </button>
