@@ -12,11 +12,15 @@ const blogSchema = new mongoose.Schema({
             message: "Invalid category ID"
         }
     },
-    thumbnail: { type: String },
+    thumbnail: { 
+        type: String,
+        required: false,
+        default: ""
+    },
     user: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "User", 
-        required: true,
+        ref: "user",  // made a change here to "user" from "User"
+        required: false,
         validate: {
             validator: mongoose.Types.ObjectId.isValid,
             message: "Invalid user ID"

@@ -15,6 +15,7 @@ app.get('/',(req,res)=> {
 
 });
 app.use(express.json()); // this is used to parse the incoming request body in a middleware before your handlers, available under the req.body property.
+app.use(express.static("public/upload")); // this is used to serve static files from the uploads directory. This is useful for serving images, CSS files, and JavaScript files.
 
 
 // API Routes

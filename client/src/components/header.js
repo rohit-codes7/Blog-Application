@@ -16,7 +16,7 @@ const Header = () => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-primary">
-            <Link className="navbar-brand text-white mx-3" to="/">MyBlog</Link>
+            <Link className="navbar-brand text-white mx-3" to="/home">MyBlog</Link>
 
             <button
                 className="navbar-toggler"

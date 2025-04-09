@@ -1,6 +1,8 @@
 import blogModel from "../models/blogModels.js";
 import categoryModel from "../models/categoryModel.js";
 import multer from "multer";
+import path from "path";
+
 class blogControllers {
 
     // fetching all the blogs from the database
@@ -22,23 +24,24 @@ class blogControllers {
         console.log(req.file); // using multer to upload the file
 
         console.log(req.body);
-        try {
-            if (!req.user || !req.user._id) {
-                return res.status(401).json({ message: "Unauthorized access" });
-            }
+        
+      
             const { title, category, description } = req.body;
             console.log(title, category, description);
+            try{
             if (title && category && description) {
-                const newBlog  = new blogModel({
+                const newBlog = new blogModel({
                     title: title,
                     category: category,
-                    description :description,
-                    thumbnail: req.file?.filename || "",  // using multer to upload the file
-                    user: req.user._id, // Ensure the user ID is saved with the blog
+                    description: description,
+                    thumbnail: req.file?.filename || "", 
+                     // using multer to upload the file
+                     // Ensure the user ID is saved with the blog
+                    // user: req.user._id, // Assuming req.user is set by your auth middleware
                 })
                 const savedBlog = await newBlog.save(); // saving the blog to the database
                 if (savedBlog) { 
-                    res.status(201).json({ message: "Blog added successfully" });
+                    res.status(200).json({ message: "Blog added successfully" });
                 }
                 else {
                     res.status(500).json({ message: "Blog not added" });
@@ -47,21 +50,19 @@ class blogControllers {
             else {
                 return res.status(400).json({ message: "All fields are required" });
             }
-
-
         } catch (error) {
             console.log({message : error.message});
             res.status(500).json({ message: error.message });
-
         }
     }
 
-    //fetching a single blog from the database
+    //fetching a single blog from the database=
     static async getSingleBlog(req, res) {
        const {id}  = req.params;
+       console.log(req.params);
        try {
         if(id){
-            const singleBlog = await blogModel.findById(id).populate("user").populate("category");
+            const singleBlog = await blogModel.findById(id);
             if(singleBlog){
                 res.status(200).json(singleBlog);
             }else{

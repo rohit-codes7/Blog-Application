@@ -6,32 +6,34 @@ const AddBlog = () => {
     const [input, setInput] = useState({
         title: "",
         category: "",
-        description: "",
+        description: ""
+
     })
-    const [file, setFile] = useState([null])
+    const [file, setFile] = useState([])
     const [categories, setCategories] = useState([])
 
     const navigate = useNavigate()
 
-    const handleAddBlog = async (e) => {
-        e.preventDefault()
-        const formData = new FormData()
-        formData.append("title", input.title)
-        formData.append("category", input.category)
-        formData.append("description", input.description)
+    const formData = new FormData()
+    formData.append("title", input.title)
+    formData.append("category", input.category)
+    formData.append("description", input.description)
+    formData.append("thumbnail", file)
 
-        if (file) {
-            formData.append("thumbnail", file)
-          }        try {
-            console.log("Form Data :", input)
-            const res = await axios.post("http://localhost:9000/api/v1/add-blog", input, {
+    const handleSubmit = async (e) => {
+
+        e.preventDefault()
+      
+ 
+        try {
+            const res = await axios.post("http://localhost:9000/api/v1/add-blog", formData, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 }
             })
     
             alert(res.data?.message || "Blog added successfully")
-            navigate("/")
+            navigate("/home")
         } catch (error) {
             console.error(" Full Error :", error)
             alert(error.response?.data?.message || "Something went wrong")
@@ -57,7 +59,7 @@ const AddBlog = () => {
             <h2 className="text-center my-3">Add New Blog</h2>
             <div className="col-xl-12 my-3 d-flex items-center justify-content-center">
                 <div className="row">
-                    <form onSubmit={handleAddBlog}>
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="titleInput" className="form-label">Title</label>
                             <input
