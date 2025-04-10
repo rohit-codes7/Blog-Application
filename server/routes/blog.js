@@ -72,4 +72,16 @@ router.get(
   blogControllers.getMyBlogs
 );
 
+
+router.put(
+  "/update/blog/:id",
+   authMiddleware
+   , blogControllers.updateBlog);
+
+router.delete(
+  "/delete/blog/:id",
+   authMiddleware,
+    blogControllers.deleteBlog);
+
+
 export default router;

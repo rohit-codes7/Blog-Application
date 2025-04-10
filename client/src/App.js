@@ -10,6 +10,7 @@ import SingleBlog from './pages/SingleBlog'
 import ProtectedRoute from './Services/ProtectedRoutes'
 import MyBlogs from './pages/MyBlogs'
 import Working from './pages/Working'
+import EditBlog from './pages/EditBlog'
 
 const App = () => {
   return (
@@ -28,6 +29,8 @@ const App = () => {
           <Route path='/add-category' element={<AddCategory />} />
           <Route path='/blog/:id' element={<SingleBlog />} />
           <Route path='/my-blogs' element={<MyBlogs />} />
+          <Route path="/edit/:id" element={<EditBlog />} />
+
         </Route>
       </Routes>
     </>

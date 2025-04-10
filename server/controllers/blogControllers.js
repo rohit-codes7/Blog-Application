@@ -1,6 +1,7 @@
 import blogModel from "../models/blogModels.js";
 import categoryModel from "../models/categoryModel.js";
 
+
 class blogControllers {
 
   // ✅ Fetch all blogs by the logged-in user
@@ -81,6 +82,52 @@ class blogControllers {
       return res.status(500).json({ message: "Internal server error." });
     }
   }
+
+  // Update a blog
+static async updateBlog(req, res) {
+  const { id } = req.params;
+  const { title, description } = req.body;
+
+  try {
+      const updatedBlog = await blogModel.findByIdAndUpdate(
+          id,
+          {
+              title,
+              description,
+              updatedAt: Date.now()
+          },
+          { new: true }
+      );
+
+      if (!updatedBlog) {
+          return res.status(404).json({ message: "Blog not found" });
+      }
+
+      res.status(200).json({ message: "Blog updated successfully", blog: updatedBlog });
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+}
+
+
+
+// Delete a blog
+static async deleteBlog(req, res) {
+  const { id } = req.params;
+
+  try {
+      const deletedBlog = await blogModel.findByIdAndDelete(id);
+
+      if (!deletedBlog) {
+          return res.status(404).json({ message: "Blog not found" });
+      }
+
+      res.status(200).json({ message: "Blog deleted successfully" });
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+}
+
 }
 
 export default blogControllers;
