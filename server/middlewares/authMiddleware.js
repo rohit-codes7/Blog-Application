@@ -9,6 +9,7 @@ const checkIsUserAuthenticated = async (req, res, next) => {
             token = authorization.split(" ")[1];
             const { userID } = jwt.verify(token, "Good Morning");
             req.user = await authModel.findById(userID).select("-password");
+            
             next();
         }
         catch (error) {

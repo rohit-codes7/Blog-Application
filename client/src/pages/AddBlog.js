@@ -26,9 +26,10 @@ const AddBlog = () => {
       
  
         try {
-            const res = await axios.post("http://localhost:9000/api/v1/add-blog", formData, {
+            const res = await axios.post("http://localhost:9000/api/v1/add-blog", formData,  {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    
                 }
             })
     

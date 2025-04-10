@@ -13,11 +13,12 @@ const Home = () => {
                     console.error("No token found in localStorage");
                     return;
                 }
-                const response = await axios.get("http://localhost:9000/api/v1/get/allBlogs", {
+                const response = await axios.get("http://localhost:9000/api/v1/get/myBlogs", {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
+                console.log("HELLO")
                 setBlogs(response.data);
             } catch (error) {
                 console.error("Error fetching blogs:", error.response?.data || error.message);
@@ -49,21 +50,8 @@ const Home = () => {
                                             </div>
                                             <div className="card-body">
                                                 <h5 className="card-title">{blog.title}</h5>
-                                                <p 
-  className="card-text"
-  style={{
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    display: '-webkit-box',
-    WebkitLineClamp: 5,
-    WebkitBoxOrient: 'vertical',
-    lineHeight: '1.5em',
-    maxHeight: '7.5em', // 3 lines * 1.5em
-  }}
->
-  {blog.description}
-</p>
-                                          <Link to={`/blog/${blog._id}`} className="btn btn-primary">Read more</Link>
+                                                <p className="card-text">{blog.description}</p>
+                                                <Link to={`/blog/${blog._id}`} className="btn btn-primary">Read more</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -76,12 +64,7 @@ const Home = () => {
                 </div>
             </main>
 
-            <footer className="bg-primary text-center text-white mt-5">
-                <div className="text-center p-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-                    © 2025 Copyright:
-                    <a className="text-white" href="https://github.com/rohit-codes7">rohit-codes7</a>
-                </div>
-            </footer>
+            
         </>
     );
 };

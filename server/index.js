@@ -3,6 +3,7 @@ import connectToDb from "./config/db.js";
 import authRoutes from "./routes/blog.js"; 
 import cors from "cors"; // this is used to allow cross-origin requests, which is important for APIs that will be accessed from different domains.
   // here we are assigning the auth.js file to authRoutes variable
+
 const app = express();
 const PORT = 9000;
 app.use(express.urlencoded({ extended: true }))
@@ -20,6 +21,9 @@ app.use(express.static("public/upload")); // this is used to serve static files 
 
 // API Routes
 app.use("/api/v1", authRoutes);
+
+
+
 
 
 //listen is like shop, I decided to open a shop at location (PORT) 9000

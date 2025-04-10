@@ -7,8 +7,7 @@ import blogControllers from '../controllers/blogControllers.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 import multer from 'multer';
 
-
-// Create upload directory if it doesn't exist
+// 🔧 Ensure 'public/upload' directory exists
 const uploadDir = path.join(process.cwd(), 'public', 'upload');
 try {
   if (!fs.existsSync(uploadDir)) {
@@ -18,6 +17,7 @@ try {
   console.error('Error creating upload directory:', error);
 }
 
+// 🗃️ Multer config for storing files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
@@ -42,12 +42,34 @@ const upload = multer({
 
 const router = express.Router();
 
+// 🧾 AUTH ROUTES
 router.post("/user/register", authController.userRegistration);
 router.post("/user/login", authController.userLogin);
-router.post("/add/category",categoryControllers.addNewCategory);
-router.get("/get/category",categoryControllers.getAllCategories);
-router.post("/add-blog",upload.single("thumbnail"),blogControllers.addNewBlog);
-router.get("/get/allBlogs",blogControllers.getAllBlogs);
-router.get("/get/singleBlog/:id",blogControllers.getSingleBlog);
+
+// 📂 CATEGORY ROUTES
+router.post("/add/category",authMiddleware,categoryControllers.addNewCategory);
+router.get("/get/category",authMiddleware, categoryControllers.getAllCategories);
+
+// 📝 BLOG ROUTES
+router.post(
+  "/add-blog",
+  authMiddleware, // ✅ First check user is authenticated
+  upload.single("thumbnail"), // ✅ Then upload file
+  blogControllers.addNewBlog
+);
+
+router.get(
+  "/get/allBlogs",
+  authMiddleware, // ✅ Required to fetch user's blogs only
+  blogControllers.getAllBlogs
+);
+
+router.get("/get/singleBlog/:id", blogControllers.getSingleBlog);
+
+router.get(
+  "/get/myBlogs",
+  authMiddleware, // ✅ Required to fetch user's blogs only
+  blogControllers.getMyBlogs
+);
 
 export default router;

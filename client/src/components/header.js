@@ -41,6 +41,9 @@ const Header = () => {
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="/add-category">Add Category</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/my-blogs">My Blogs</Link>
+                    </li>
                 </ul>
 
                 <div className="d-inline mx-auto my-2 my-lg-0">

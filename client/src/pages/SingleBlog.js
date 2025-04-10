@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const SingleBlog = () => {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -48,13 +49,31 @@ const SingleBlog = () => {
                     </div>
                 </div>
             </div>
-            <button 
-                type="button" 
-                className="btn btn-primary my-3" 
-                onClick={() => navigate("/home")} // Navigate to the correct home page route
-            >
-                Back to posts
-            </button>
+            <div className="d-flex justify-content-between align-items-center my-3">
+                <button 
+                    type="button" 
+                    className="btn btn-primary" 
+                    onClick={() => navigate("/home")}
+                >
+                    Back to posts
+                </button>
+                <div>
+                    <button 
+                        type="button" 
+                        className="btn btn-success me-4 my-3 " 
+                        onClick={() => navigate("/working")} 
+                    >
+                        Edit
+                    </button>
+                    <button 
+                        type="button" 
+                        className="btn btn-danger" 
+                        onClick={() => navigate("/working")} 
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

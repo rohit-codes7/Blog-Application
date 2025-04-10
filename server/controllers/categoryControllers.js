@@ -5,7 +5,7 @@ class categoryControllers{
         // fetching all categories from the database
         // and sending them as a response
         try {
-            const getAllCategories = await categoryModel.find({});
+            const getAllCategories = await categoryModel.find({user: req.user._id});
             res.status(200).json(getAllCategories);
         } catch (error) {
             res.status(500).json({ message: error.message });
@@ -15,6 +15,7 @@ class categoryControllers{
 
     static async addNewCategory(req, res) {
         const { title } = req.body;
+        console.log(req.user_id)
         console.log(title);
         // checking if the title is not empty
         if (!title) {
@@ -26,6 +27,8 @@ class categoryControllers{
             if (title) {
                 const newCategory = new categoryModel({
                     title: title,
+                    user: req.user._id // Attach current user to category
+                // Attach current user to category
                 });
     
                 const savedCategory = await newCategory.save();

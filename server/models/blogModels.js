@@ -19,8 +19,8 @@ const blogSchema = new mongoose.Schema({
     },
     user: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "user",  // made a change here to "user" from "User"
-        required: false,
+        ref: "User",  // made a change here to "user" from "User"
+        required: true,
         validate: {
             validator: mongoose.Types.ObjectId.isValid,
             message: "Invalid user ID"
