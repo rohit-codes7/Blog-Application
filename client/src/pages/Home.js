@@ -49,21 +49,21 @@ const Home = () => {
                                             </div>
                                             <div className="card-body">
                                                 <h5 className="card-title">{blog.title}</h5>
-                                                <p 
-  className="card-text"
-  style={{
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    display: '-webkit-box',
-    WebkitLineClamp: 5,
-    WebkitBoxOrient: 'vertical',
-    lineHeight: '1.5em',
-    maxHeight: '7.5em', // 3 lines * 1.5em
-  }}
->
-  {blog.description}
-</p>
-                                          <Link to={`/blog/${blog._id}`} className="btn btn-primary">Read more</Link>
+                                                <p
+                                                    className="card-text"
+                                                    style={{
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        display: '-webkit-box',
+                                                        WebkitLineClamp: 5,
+                                                        WebkitBoxOrient: 'vertical',
+                                                        lineHeight: '1.5em',
+                                                        maxHeight: '7.5em', // 3 lines * 1.5em
+                                                    }}
+                                                >
+                                                    {blog.description}
+                                                </p>
+                                                <Link to={`/blog/${blog._id}`} className="btn btn-primary">Read more</Link>
                                             </div>
                                         </div>
                                     </div>
