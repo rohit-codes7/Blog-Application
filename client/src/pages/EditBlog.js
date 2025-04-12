@@ -11,6 +11,9 @@ const EditBlog = () => {
     description: '',
   });
 
+  const [thumbnail, setThumbnail] = useState(null);
+  const [existingThumbnail, setExistingThumbnail] = useState('');
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
@@ -19,10 +22,13 @@ const EditBlog = () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
+
         setFormData({
           title: res.data.title,
           description: res.data.description,
         });
+
+        setExistingThumbnail(res.data.thumbnail);
       } catch (err) {
         console.error("Error fetching blog", err);
       }
@@ -38,12 +44,26 @@ const EditBlog = () => {
     }));
   };
 
+  const handleThumbnailChange = (e) => {
+    setThumbnail(e.target.files[0]);
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("description", formData.description);
+
+    if (thumbnail) {
+      data.append("thumbnail", thumbnail);
+    }
+
     try {
-      await axios.put(`http://localhost:9000/api/v1/update/blog/${id}`, formData, {
+      await axios.put(`http://localhost:9000/api/v1/update/blog/${id}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -58,7 +78,7 @@ const EditBlog = () => {
   return (
     <div className="container my-5">
       <h2>Edit Blog</h2>
-      <form onSubmit={handleUpdate}>
+      <form onSubmit={handleUpdate} encType="multipart/form-data">
         <div className="mb-3">
           <label className="form-label">Title</label>
           <input
@@ -70,6 +90,7 @@ const EditBlog = () => {
             required
           />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Description</label>
           <textarea
@@ -81,6 +102,30 @@ const EditBlog = () => {
             required
           />
         </div>
+
+        <div className="mb-3">
+          <label className="form-label">Current Thumbnail</label><br />
+          {existingThumbnail ? (
+            <img
+              src={`http://localhost:9000/${existingThumbnail}`}
+              alt="Current Thumbnail"
+              style={{ maxWidth: '200px', marginBottom: '10px' }}
+            />
+          ) : (
+            <p>No thumbnail available</p>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Upload New Thumbnail (optional)</label>
+          <input
+            type="file"
+            accept="image/*"
+            className="form-control"
+            onChange={handleThumbnailChange}
+          />
+        </div>
+
         <button type="submit" className="btn btn-success">Update</button>
       </form>
     </div>

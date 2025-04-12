@@ -73,10 +73,8 @@ router.get(
 );
 
 
-router.put(
-  "/update/blog/:id",
-   authMiddleware
-   , blogControllers.updateBlog);
+router.put("/update/blog/:id", upload.single("thumbnail"), blogControllers.updateBlog);
+
 
 router.delete(
   "/delete/blog/:id",
