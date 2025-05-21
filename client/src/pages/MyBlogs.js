@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const MyBlogs = () => {
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
@@ -64,7 +64,13 @@ const Home = () => {
                                                 >
                                                     {blog.description}
                                                 </p>
-                                                <Link to={`/blog/${blog._id}`} className="btn btn-primary">Read more</Link>
+                                                <Link 
+                                                    to={`/blog/${blog._id}`} 
+                                                    state={{ isOwner: true }}
+                                                    className="btn btn-primary"
+                                                >
+                                                    Read more
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -82,4 +88,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default MyBlogs;

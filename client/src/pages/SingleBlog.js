@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 
 
 const SingleBlog = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { id } = useParams();
 
     const [blog, setBlog] = useState({});
+    const isOwner = location.state?.isOwner;
 
     useEffect(() => {
         
@@ -79,23 +81,24 @@ const handleDelete = async () => {
                 >
                     Back to posts
                 </button>
-                <div>
-                    <button 
-                        type="button" 
-                        className="btn btn-success me-4 my-3 " 
-                        onClick={() => navigate(`/edit/${id}`)} 
-                    >
-                        Edit
-                    </button>
-                    <button 
-    type="button" 
-    className="btn btn-danger my-3 mx-3"
-    onClick={handleDelete}
->
-    Delete
-</button>
-
-                </div>
+                {isOwner && (
+                    <div>
+                        <button 
+                            type="button" 
+                            className="btn btn-success me-4 my-3" 
+                            onClick={() => navigate(`/edit/${id}`)} 
+                        >
+                            Edit
+                        </button>
+                        <button 
+                            type="button" 
+                            className="btn btn-danger my-3 mx-3"
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
